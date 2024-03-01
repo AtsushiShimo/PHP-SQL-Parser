@@ -288,6 +288,7 @@ class ExpressionListProcessor extends AbstractProcessor {
                 case '^':
                 case 'DIV':
                 case '/':
+                case '->':
                 case '<=>':
                 case '=':
                 case '>=':

@@ -63,6 +63,16 @@ class GroupByExpressionBuilder implements Builder {
 		$builder = new ReservedBuilder();
 		return $builder->build($parsed);
 	}
+
+    protected function buildOperator($parsed) {
+        $builder = new OperatorBuilder();
+        return $builder->build($parsed);
+    }
+
+    protected function buildConst($parsed) {
+        $builder = new ConstantBuilder();
+        return $builder->build($parsed);
+    }
 	
     public function build(array $parsed) {
         if ($parsed['expr_type'] !== ExpressionType::EXPRESSION) {
@@ -74,6 +84,8 @@ class GroupByExpressionBuilder implements Builder {
             $len = strlen($sql);
             $sql .= $this->buildColRef($v);
             $sql .= $this->buildReserved($v);
+            $sql .= $this->buildOperator($v);
+            $sql .= $this->buildConst($v);
 
             if ($len == strlen($sql)) {
                 throw new UnableToCreateSQLException('GROUP expression subtree', $k, $v, 'expr_type');
